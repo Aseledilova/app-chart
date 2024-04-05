@@ -1,29 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "asels-app.fullname" . }}
+  name: {{ .Values.serviceName }}
   labels:
-    {{- include "asels-app.labels" . | nindent 4 }}
-spec:
-  type: {{ .Values.service.type }}
-  ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
-  selector:
-    {{- include "asels-app.selectorLabels" . | nindent 4 }}
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: nginx-svc
-  labels:
-    managed-by: dso
+{{- include "commonLabels" . | nindent 4 }}
 spec:
   selector:
-    application: nginx-app
+{{- include "commonLabels" . | nindent 4 }}
   ports:
-    - name: {{ .Values.nginxApp.portName }}
-      port: {{ .Values.nginxApp.portNumber }}
-      targetPort: {{ .Values.nginxApp.targetPort }}
+    - name: {{ .Values.nginxApp.containerPortName }}
+      port: {{ .Values.nginxApp.containerPortNumber }}
+      targetPort: {{ .Values.nginxApp.containerTargetPortNumber }}
