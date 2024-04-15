@@ -16,6 +16,7 @@ env:
     PROJECT_ID: hardy-symbol-417822
     REGISTRY_LOCATION: us-central1
     REPOSITORY: app-chart
+    service_account_key: ${{secrets.GCP_SERVICE_ACCOUNT_KEY}}
 
 jobs:
   package_and_push:
