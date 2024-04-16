@@ -45,6 +45,7 @@ jobs:
       - name: Package Helm Charts
         run: |
           helm package asels-app/ -d ./packaged-charts
+        working-directory: ${{ github.workspace }}
 
       - name: Push Helm Charts
         run: |
