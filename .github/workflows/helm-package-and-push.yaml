@@ -26,15 +26,12 @@ jobs:
     name: Package and Push Helm Charts
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Set up Helm
-        uses: azure/setup-helm@v1
-        with:
-          helm-version: 'latest'
+        uses: azure/setup-helm@v4
 
       - name: Authenticate with Google Cloud
         uses: 'google-github-actions/auth@v2'
