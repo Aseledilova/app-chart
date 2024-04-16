@@ -44,7 +44,7 @@ jobs:
       
       - name: Package Helm Charts
         run: |
-          helm package app-chart/ -d ./packaged-charts
+          helm package asels-app/ -d ./packaged-charts
 
       - name: Push Helm Charts
         run: |
