@@ -16,7 +16,6 @@ env:
     PROJECT_ID: hardy-symbol-417822
     REGISTRY_LOCATION: us-central1
     REPOSITORY: app-chart
-    service_account_key: ${{secrets.GCP_SERVICE_ACCOUNT_KEY}}
 
 jobs:
   package_and_push:
@@ -33,8 +32,17 @@ jobs:
         with:
           helm-version: 'latest'
 
-      - name: Package and Push Helm Charts
+      - name: Authenticate with Google Cloud
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{secrets.GCP_SERVICE_ACCOUNT_KEY}}'
+          token_format: "access_token"
+      
+      - name: Package Helm Charts
         run: |
-          for chart in $(find . -name "*.tgz" -exec basename {} \;); do
-            helm push $chart https://github.com/Aseledilova/app-chart.git
-          done
+          helm package asels-app/ -d ./packaged-charts
+
+
+      - name: Push Helm Charts
+        run: |
+          helm push ./packaged-charts/*.tgz "oci://us-central1-docker.pkg.dev/hardy-symbol-417822/new-repo"
